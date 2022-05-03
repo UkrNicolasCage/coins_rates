@@ -40,4 +40,5 @@ async def refresh_data():
         with open('tgbot\\models\\exchange_rates.json',"w", encoding="utf-8") as file:
             json.dump(coin_info, file, indent=4, ensure_ascii=False)
         
-            
+    
+    

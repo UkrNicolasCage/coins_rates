@@ -3,4 +3,4 @@ aioredis~=2.0
 environs~=9.0
 bs4
 lxml
-apschedule
+apscheduler

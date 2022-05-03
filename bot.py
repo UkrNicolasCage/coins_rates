@@ -44,7 +44,6 @@ async def main():
     schedule = AsyncIOScheduler()
     
     schedule.add_job(refresh_data,trigger='interval', hours=1, timezone=utc)
-
     
     for router in [
         admin_router,
