@@ -14,6 +14,11 @@ def recent_keyboard(id):
             history = user.get("history")
             
     for coin in history:
+        if len(coin) >  3:
+            coin = coin[0].capitalize()+ coin[1:]
+        else:
+            coin = coin[0].lower() + coin[1:]
+            
         recent.row(InlineKeyboardButton(text=coin, callback_data=coin ))
         
     return recent.as_markup()

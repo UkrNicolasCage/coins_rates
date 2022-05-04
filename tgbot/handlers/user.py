@@ -59,9 +59,6 @@ async def get_files(message: Message):
                         document = FSInputFile(path= "tgbot\\models\\exchange_rates.json")
                         )
        
-    #    "tgbot\\models\\exchange_rates.json"
-       
-       
        
 @user_router.message(F.text, IsReal(), state="*")
 async def get_coin_info(message: Message):
