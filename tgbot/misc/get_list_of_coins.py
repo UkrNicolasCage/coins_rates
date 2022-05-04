@@ -3,7 +3,7 @@ import json
 
 def get_coins_names_list(lower_case: bool = False):
     list_of_coins = []
-    with open("tgbot\\models\\exchange_rates.json","r", encoding="utf-8") as file:
+    with open("tgbot/models/exchange_rates.json","r", encoding="utf-8") as file:
             coins = json.load(file)
             if lower_case == False:
                 for  coin in coins:

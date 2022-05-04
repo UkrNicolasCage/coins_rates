@@ -25,7 +25,7 @@ async def user_start(message: Message ):
     if flag == False:
         info = { "id": message.from_user.id,"history": []}            
         
-        with open("tgbot\\models\\request_history.json", "a") as file :   
+        with open("tgbot/models/request_history.json", "a") as file :   
             json.dump(info, file, indent=4, ensure_ascii=False)
             
     await message.answer("Enter the desired cryptocurrency.\n"
@@ -56,13 +56,15 @@ async def get_files(message: Message):
     config = load_config(".env")
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     await bot.send_document(chat_id= message.from_user.id, 
-                        document = FSInputFile(path= "tgbot\\models\\exchange_rates.json")
+                        document = FSInputFile(path= "tgbot/models/exchange_rates.json")
                         )
+       
+
        
        
 @user_router.message(F.text, IsReal(), state="*")
 async def get_coin_info(message: Message):
-    with open("tgbot\\models\\exchange_rates.json","r", encoding="utf-8") as file:
+    with open("tgbot/models/exchange_rates.json","r", encoding="utf-8") as file:
         coins = json.load(file)
         for coin in coins:
             if coin.get('name_long').lower() == message.text.lower() or coin.get("name_short").lower() == message.text.lower():
@@ -77,7 +79,7 @@ async def get_coin_info(message: Message):
                     days_change = days_change + "%📈"
                 break 
     users = get_request_history_info()               
-    with open("tgbot\\models\\request_history.json", "w") as file :   
+    with open("tgbot/models/request_history.json", "w") as file :   
         
         for user in users:
             if user.get("id") == message.from_user.id:
@@ -106,7 +108,7 @@ async def no_coin(message: Message):
                  
 @user_router.callback_query(state="*")
 async def find_common_keyboard(call: CallbackQuery):
-    with open("tgbot\\models\\exchange_rates.json","r", encoding="utf-8") as file:
+    with open("tgbot/models/exchange_rates.json","r", encoding="utf-8") as file:
         coins = json.load(file)
         for coin in coins:
             if coin.get("name_short") == call.data or coin.get("name_long") == call.data:
@@ -122,7 +124,7 @@ async def find_common_keyboard(call: CallbackQuery):
                 break      
                       
     users = get_request_history_info()               
-    with open("tgbot\\models\\request_history.json", "w") as file :   
+    with open("tgbot/models/request_history.json", "w") as file :   
         
         for user in users:
             if user.get("id") == call.from_user.id:

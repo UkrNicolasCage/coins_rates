@@ -43,7 +43,7 @@ async def main():
     dp = Dispatcher(storage=storage)
     schedule = AsyncIOScheduler()
     
-    schedule.add_job(refresh_data,trigger='interval', hours=1, timezone=utc)
+    schedule.add_job(refresh_data,trigger='interval', hours=3, timezone=utc)
     
     for router in [
         admin_router,
