@@ -23,10 +23,10 @@ async def user_start(message: Message ):
                 flag = True
                     
     if flag == False:
-        info = { "id": message.from_user.id,"history": []}            
+        users.append({ "id": message.from_user.id,"history": []})            
         
-        with open("tgbot/models/request_history.json", "a") as file :   
-            json.dump(info, file, indent=4, ensure_ascii=False)
+        with open("tgbot/models/request_history.json", "w") as file :   
+            json.dump(users, file, indent=4, ensure_ascii=False)
             
     await message.answer("Enter the desired cryptocurrency.\n"
                         "Examples: 'btc', 'Bitcoin'\n\n"

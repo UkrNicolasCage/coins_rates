@@ -14,7 +14,7 @@ def recent_keyboard(id):
             history = user.get("history")
             
     for coin in history:
-        if len(coin) >  3:
+        if len(coin) >  4:
             coin = coin[0].capitalize()+ coin[1:]
         else:
             coin = coin[0].lower() + coin[1:]

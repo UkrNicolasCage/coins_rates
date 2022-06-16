@@ -2,10 +2,20 @@
     {
         "id": 698221842,
         "history": [
-            "ada",
-            "sol",
-            "polkadot",
-            "Polkadot"
+            "btc",
+            "Btc",
+            "Doge",
+            "doge"
         ]
+    },
+    {
+        "id": 5148533825,
+        "history": [
+            "ada"
+        ]
+    },
+    {
+        "id": 1361764764,
+        "history": []
     }
 ]
