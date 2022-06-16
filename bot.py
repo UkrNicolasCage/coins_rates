@@ -7,6 +7,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pytz import utc
 
 from tgbot.config import load_config
+from tgbot.handlers.currency_change import currency_router
 from tgbot.handlers.admin import admin_router
 from tgbot.handlers.echo import echo_router
 from tgbot.handlers.user import user_router
@@ -43,12 +44,13 @@ async def main():
     dp = Dispatcher(storage=storage)
     schedule = AsyncIOScheduler()
     
-    schedule.add_job(refresh_data,trigger='interval', hours=3, timezone=utc)
+    schedule.add_job(refresh_data,trigger='interval', hours=24, timezone=utc)
     
     for router in [
         admin_router,
+        currency_router,
         user_router,
-        echo_router
+        echo_router,
     ]:
         dp.include_router(router)
 

@@ -1,6 +1,9 @@
 import json
 import aiohttp
+import asyncio
 from bs4 import BeautifulSoup
+
+
 
 headers = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36",
@@ -8,37 +11,53 @@ headers = {
 }
 url ="https://minfin.com.ua/ua/currency/crypto/"
 
+
 async def refresh_data():
     async with aiohttp.ClientSession() as session:
         response = await session.get(url= url, headers=headers)
         soup = BeautifulSoup(await response.text(), "lxml") 
+        coins_in_page=185
+        last_page = int(soup.footer.text.split(" ")[-1]) // (coins_in_page*2)
+        coin_info_usd = []
+        coin_info_eur = []
+        coin_info_uah = []
         
-        last_page = int(int(soup.find("nav").find_all("a",class_="pagination-button")[-2].text) / 2)
-        coin_info = []
-        
-        for page in range(1,last_page):
-            async with session.get(url= f'https://minfin.com.ua/ua/currency/crypto/{page}',headers=headers) as response:
-                    soup = BeautifulSoup(await response.text(), "lxml") 
-                    coins = soup.find_all(class_="coin js-sort-elem")
-                    
-                    for coin in coins:
-                        name_long = coin.find(class_ = "blue coin-name--long").text
-                        name_short = coin.find(class_ = "grey coin-name--short").text
-                        price = coin.find(class_="coin-item coin-price row-nocollapsed").get("data-sort-val")
-                        capitalized = coin.find(class_="coin-item coin-capital row-collapsed").get("data-sort-val")                        
-                        days_change= coin.find(class_="coin-item coin-changes row-collapsed").get("data-sort-val")
-                        
-                        coin_info.append({
-                            'name_long': name_long,
-                            'name_short': name_short,
-                            'price': price,
-                            'capitalized': capitalized,
-                            'days_change': days_change
+        for page in range(0,last_page):
+            async with session.get(url= f'https://minfin.com.ua/api/currency/crypto/list/?cpp={coins_in_page}&page={page}',headers=headers) as response:
+                data = dict(await response.json())['data']
+                for coin in data:
+                    coin_info_usd.append({
+                            'name_long': coin['name'],
+                            'name_short': coin['code'],
+                            'price': coin['price']['usd'],
+                            'capitalized': coin['market_cap']['usd'],
+                            'trend': coin['trend']
                         })
-        
-  
-        with open('tgbot/models/exchange_rates.json',"w", encoding="utf-8") as file:
-            json.dump(coin_info, file, indent=4, ensure_ascii=False)
-        
+                    coin_info_eur.append({
+                            'name_long': coin['name'],
+                            'name_short': coin['code'],
+                            'price': coin['price']['eur'],
+                            'capitalized': coin['market_cap']['eur'],
+                            'trend': coin['trend']
+                        })
+                    coin_info_uah.append({
+                            'name_long': coin['name'],
+                            'name_short': coin['code'],
+                            'price': coin['price']['uah'],
+                            'capitalized': coin['market_cap']['uah'],
+                            'trend': coin['trend']
+                        })
+                   
+                   
+    with open('tgbot/models/exchange_rates_usd.json',"w", encoding="utf-8") as file:
+        json.dump(coin_info_usd, file, indent=4, ensure_ascii=False)
     
+    with open('tgbot/models/exchange_rates_eur.json',"w", encoding="utf-8") as file:
+        json.dump(coin_info_eur, file, indent=4, ensure_ascii=False)
     
+    with open('tgbot/models/exchange_rates_uah.json',"w", encoding="utf-8") as file:
+        json.dump(coin_info_uah, file, indent=4, ensure_ascii=False)
+        
+                
+
+asyncio.run(refresh_data())
