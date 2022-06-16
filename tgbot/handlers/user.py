@@ -72,28 +72,6 @@ async def get_files(message: Message):
 @user_router.message(F.text, IsReal(), state='eur')
 @user_router.message(F.text, IsReal(), state='uah')
 async def get_coin_info(message: Message, state: FSMContext):
-    # with open("tgbot/models/exchange_rates.json","r", encoding="utf-8") as file:
-    #     coins = json.load(file)
-    #     for coin in coins:
-    #         if coin.get('name_long').lower() == message.text.lower() or coin.get("name_short").lower() == message.text.lower():
-    #             name_long = coin.get("name_long")
-    #             name_short = coin.get("name_short")
-    #             price = coin.get("price")
-    #             capitalized = coin.get("capitalized")
-    #             days_change = coin.get("days_change")
-    #             if days_change[0] == "-":
-    #                 days_change = days_change + "%📉"
-    #             else:
-    #                 days_change = days_change + "%📈"
-    #             break 
-    # users = get_request_history_info()               
-    # with open("tgbot/models/request_history.json", "w") as file :   
-        
-    #     for user in users:
-    #         if user.get("id") == message.from_user.id:
-    #             user["history"] = change(user.get("history"), message.text)
-            
-    #     json.dump(users, file, indent=4, ensure_ascii=False)
     currency = str(await state.get_state())
     answer = await create_answer(id=message.from_user.id, data=message.text, currency=currency)
 

@@ -1,6 +1,3 @@
-
-
-
 import json
 from tgbot.misc.change_history import change
 
@@ -14,7 +11,7 @@ async def create_answer(id,data,currency):
     with open(f"tgbot/models/exchange_rates_{currency}.json","r", encoding="utf-8") as file:
         coins = json.load(file)
         for coin in coins:
-            if coin.get('name_long').lower() == data.lower() or coin.get("name_short").lower() == data.text.lower():
+            if coin.get('name_long').lower() == data.lower() or coin.get("name_short").lower() == data.lower():
                 name_long = coin.get("name_long")
                 name_short = coin.get("name_short")
                 price = str(coin.get("price"))
