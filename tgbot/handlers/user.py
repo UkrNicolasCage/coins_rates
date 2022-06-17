@@ -63,8 +63,17 @@ async def get_files(message: Message):
     config = load_config(".env")
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     await bot.send_document(chat_id= message.from_user.id, 
-                        document = FSInputFile(path= "tgbot/models/exchange_rates.json")
-                        )
+                            document = FSInputFile(
+                                path= "tgbot/models/exchange_rates_usd.json")
+                            )
+    await bot.send_document(chat_id=message.from_user.id,
+                            document=FSInputFile(
+                                path="tgbot/models/exchange_rates_eur.json")
+                            )
+    await bot.send_document(chat_id=message.from_user.id,
+                            document=FSInputFile(
+                                path="tgbot/models/exchange_rates_uah.json")
+                            )
        
 
        
@@ -75,7 +84,6 @@ async def get_coin_info(message: Message, state: FSMContext):
     currency = str(await state.get_state())
     answer = await create_answer(id=message.from_user.id, data=message.text, currency=currency)
 
-    
     await message.answer(text=answer)
             
                     
@@ -97,8 +105,7 @@ async def no_coin(message: Message):
 async def find_common_keyboard(call: CallbackQuery, state: FSMContext):
     currency = str(await state.get_state())
     answer = await create_answer(id = call.from_user.id,data = call.data, currency = currency)
-    
-    await call.answer()
+    call.answer()
     await call.message.answer(text = answer)
     
 

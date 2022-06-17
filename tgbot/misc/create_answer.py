@@ -25,9 +25,7 @@ async def create_answer(id,data,currency):
                 ]
                 
                 # some prettier
-                
                 for i in range(len(change_coins_all)):
-    
                     if change_coins_all[i][0] == "-":
                         change_coins_all[i] = change_coins_all[i] + "%📉"
                     else:
@@ -42,17 +40,14 @@ async def create_answer(id,data,currency):
                 else:
                     price = price + " UAH"
                     capitalized = capitalized + " UAH"
-                
                 # end of prettier part
                 break      
                        
     users = get_request_history_info()               
     with open("tgbot/models/request_history.json", "w") as file :   
-        
         for user in users:
             if user.get("id") == id:
                 user["history"] = change(user.get("history"), data)
-            
         json.dump(users, file, indent=4, ensure_ascii=False)
         
     

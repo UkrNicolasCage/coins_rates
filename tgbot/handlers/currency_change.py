@@ -20,7 +20,7 @@ async def show_change_currency_menu(message: Message):
 @currency_router.callback_query(text="uah")
 @currency_router.callback_query(text="eur")
 async def change_currency(call: CallbackQuery, state: FSMContext):
-    await call.answer()
+    call.message.delete_reply_markup()
     choiced_cuurrency = call.data
     if choiced_cuurrency == "usd":
         await state.set_state('usd')

@@ -9,7 +9,6 @@ from pytz import utc
 from tgbot.config import load_config
 from tgbot.handlers.currency_change import currency_router
 from tgbot.handlers.admin import admin_router
-from tgbot.handlers.echo import echo_router
 from tgbot.handlers.user import user_router
 from tgbot.middlewares.config import ConfigMiddleware
 from tgbot.misc.refresh_rates import refresh_data
@@ -50,7 +49,6 @@ async def main():
         admin_router,
         currency_router,
         user_router,
-        echo_router,
     ]:
         dp.include_router(router)
 
